@@ -76,6 +76,10 @@ where
         VecSet { inner }
     }
 
+    pub fn contains(&self, item: &A) -> bool {
+        self.inner.binary_search(item).is_ok()
+    }
+
     pub fn retain<F>(&mut self, f: F)
     where
         F: FnMut(&A) -> bool,
@@ -217,6 +221,14 @@ impl<'a, A> IntoIterator for &'a mut VecSet<A> {
 
     fn into_iter(self) -> Self::IntoIter {
         self.inner.iter_mut()
+    }
+}
+
+impl<A> Default for VecSet<A> {
+    fn default() -> Self {
+        VecSet {
+            inner: Vec::default(),
+        }
     }
 }
 
