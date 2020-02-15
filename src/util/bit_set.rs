@@ -43,8 +43,8 @@ where
         self.size == 0
     }
 
-    pub fn contains(&self, value: &usize) -> bool {
-        self.get(*value).unwrap_or(false)
+    pub fn contains(&self, value: usize) -> bool {
+        self.get(value).unwrap_or(false)
     }
 
     pub fn is_subset(&self, other: &Self) -> bool {

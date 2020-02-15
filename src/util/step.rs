@@ -54,7 +54,7 @@ where
     }
 }
 
-pub trait Bounded {
+pub trait Bounded: Copy {
     const MIN: Self;
     const MAX: Self;
 }
@@ -637,7 +637,18 @@ macro_rules! impl_bounded_for_integer {
     };
 }
 
-impl_bounded_for_integer!(u8|u8, i8|i8, u16|u16, i16|i16, u32|u32, i32|i32, u64|u64, i64|i64, u128|u128, i128|i128);
+impl_bounded_for_integer!(
+    u8 | u8,
+    i8 | i8,
+    u16 | u16,
+    i16 | i16,
+    u32 | u32,
+    i32 | i32,
+    u64 | u64,
+    i64 | i64,
+    u128 | u128,
+    i128 | i128
+);
 
 impl Bounded for char {
     const MAX: Self = core::char::MAX;

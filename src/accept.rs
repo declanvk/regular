@@ -51,7 +51,10 @@ mod tests {
         #[derive(Debug, Default)]
         struct Contains<T>(T);
 
-        impl<T> Accept for Contains<T> where T: PartialEq {
+        impl<T> Accept for Contains<T>
+        where
+            T: PartialEq,
+        {
             type Symbol = T;
 
             fn accept<I: IntoIterator<Item = Self::Symbol>>(self, string: I) -> bool {

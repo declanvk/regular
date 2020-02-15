@@ -18,7 +18,7 @@ fn is_sorted<'a, A: 'a + Ord>(iter: impl IntoIterator<Item = &'a A>) -> bool {
         None => return true,
     };
 
-    while let Some(curr) = iter.next() {
+    for curr in iter {
         if last > curr {
             return false;
         }
@@ -35,7 +35,7 @@ fn is_deduped<'a, A: 'a + Eq>(iter: impl IntoIterator<Item = &'a A>) -> bool {
         None => return true,
     };
 
-    while let Some(curr) = iter.next() {
+    for curr in iter {
         if last == curr {
             return false;
         }

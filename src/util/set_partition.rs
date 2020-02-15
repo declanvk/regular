@@ -58,7 +58,7 @@ where
         let mid = self.set_mid_idx[set];
         let last = self.set_last_idx[set];
 
-        if !self.marked.contains(&item_val) {
+        if !self.marked.contains(item_val) {
             let loc = self.elements[mid..last].binary_search(item).unwrap() + mid;
             // overwrite location of item
             copy_within(&mut self.elements, mid..loc, mid + 1);
