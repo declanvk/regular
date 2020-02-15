@@ -1,0 +1,9 @@
+(function() {var implementors = {};
+implementors["regular"] = [{"text":"impl&lt;B&gt; Freeze for <a class=\"struct\" href=\"regular/util/struct.FixedBitSet.html\" title=\"struct regular::util::FixedBitSet\">FixedBitSet</a>&lt;B&gt;","synthetic":true,"types":["regular::util::bit_set::FixedBitSet"]},{"text":"impl&lt;T, IL, IR, F&gt; Freeze for <a class=\"struct\" href=\"regular/util/struct.Join.html\" title=\"struct regular::util::Join\">Join</a>&lt;T, IL, IR, F&gt; <span class=\"where fmt-newline\">where<br>&nbsp;&nbsp;&nbsp;&nbsp;F: Freeze,<br>&nbsp;&nbsp;&nbsp;&nbsp;IL: Freeze,<br>&nbsp;&nbsp;&nbsp;&nbsp;IR: Freeze,<br>&nbsp;&nbsp;&nbsp;&nbsp;T: Freeze,&nbsp;</span>","synthetic":true,"types":["regular::util::join_iter::Join"]},{"text":"impl&lt;A&gt; Freeze for <a class=\"struct\" href=\"regular/util/struct.SetPartitions.html\" title=\"struct regular::util::SetPartitions\">SetPartitions</a>&lt;A&gt;","synthetic":true,"types":["regular::util::set_partition::SetPartitions"]},{"text":"impl&lt;A&gt; Freeze for <a class=\"struct\" href=\"regular/util/struct.VecSet.html\" title=\"struct regular::util::VecSet\">VecSet</a>&lt;A&gt;","synthetic":true,"types":["regular::util::vec_set::VecSet"]},{"text":"impl&lt;Sym&gt; Freeze for <a class=\"enum\" href=\"regular/util/enum.Range.html\" title=\"enum regular::util::Range\">Range</a>&lt;Sym&gt; <span class=\"where fmt-newline\">where<br>&nbsp;&nbsp;&nbsp;&nbsp;Sym: Freeze,&nbsp;</span>","synthetic":true,"types":["regular::util::step::Range"]}];
+
+            if (window.register_implementors) {
+                window.register_implementors(implementors);
+            } else {
+                window.pending_implementors = implementors;
+            }
+        })()
