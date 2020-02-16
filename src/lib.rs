@@ -8,10 +8,11 @@ pub mod accept;
 /// the context of languages and strings.
 pub mod alphabet;
 /// Implementation of discrete finite automaton.
-pub mod dfa;
+pub(crate) mod dfa;
 pub(crate) mod error;
 pub(crate) mod util;
 
+pub use dfa::{DFABuilder, DFAStorage, DefaultDFAStorage, DFA};
 pub use error::Error;
 
 /// Common items to import.
@@ -23,6 +24,7 @@ pub use error::Error;
 pub mod prelude {
     pub use crate::{
         accept::{Accept, IterExt},
+        dfa::{DFABuilder, DFAStorage, DefaultDFAStorage, DFA},
         error::Error,
     };
 }

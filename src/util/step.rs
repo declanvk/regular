@@ -260,7 +260,7 @@ macro_rules! step_identical_methods {
         fn predecessor_saturating(&self) -> Self {
             Self::saturating_sub(*self, 1)
         }
-    }
+    };
 }
 
 macro_rules! step_integer_impls {
