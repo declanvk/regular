@@ -7,6 +7,8 @@ pub mod accept;
 /// Traits and implementations of generic sets of symbol, called alphabets in
 /// the context of languages and strings.
 pub mod alphabet;
+/// Implementation of discrete finite automaton.
+pub mod dfa;
 pub(crate) mod error;
 pub(crate) mod util;
 
