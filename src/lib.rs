@@ -4,6 +4,9 @@
 /// NFAs. Connected to the larger concept of recognizing that some string
 /// belongs to a language.
 pub mod accept;
+/// Traits and implementations of generic sets of symbol, called alphabets in
+/// the context of languages and strings.
+pub mod alphabet;
 pub(crate) mod error;
 pub(crate) mod util;
 
