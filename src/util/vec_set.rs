@@ -45,14 +45,7 @@ fn is_deduped<'a, A: 'a + Eq>(iter: impl IntoIterator<Item = &'a A>) -> bool {
     true
 }
 
-impl<A> VecSet<A>
-where
-    A: Ord,
-{
-    pub fn new() -> Self {
-        VecSet { inner: Vec::new() }
-    }
-}
+impl<A> VecSet<A> where A: Ord {}
 
 impl<A> VecSet<A>
 where
@@ -74,6 +67,21 @@ where
         let inner = src.into();
 
         VecSet { inner }
+    }
+}
+
+impl<A> VecSet<A>
+where
+    A: Ord,
+{
+    pub fn new() -> Self {
+        VecSet { inner: Vec::new() }
+    }
+
+    pub fn with_capacity(capacity: usize) -> Self {
+        VecSet {
+            inner: Vec::with_capacity(capacity),
+        }
     }
 
     pub fn contains(&self, item: &A) -> bool {
@@ -175,7 +183,7 @@ impl<A: Ord> From<Vec<A>> for VecSet<A> {
 
 impl<A> Extend<A> for VecSet<A>
 where
-    A: Ord + Eq,
+    A: Ord,
 {
     fn extend<T: IntoIterator<Item = A>>(&mut self, iter: T) {
         self.inner.extend(iter);
@@ -186,7 +194,7 @@ where
 
 impl<A> FromIterator<A> for VecSet<A>
 where
-    A: Ord + Eq,
+    A: Ord,
 {
     fn from_iter<T: IntoIterator<Item = A>>(iter: T) -> Self {
         let mut inner: Vec<_> = iter.into_iter().collect();
@@ -224,7 +232,10 @@ impl<'a, A> IntoIterator for &'a mut VecSet<A> {
     }
 }
 
-impl<A> Default for VecSet<A> {
+impl<A> Default for VecSet<A>
+where
+    A: Ord,
+{
     fn default() -> Self {
         VecSet {
             inner: Vec::default(),
