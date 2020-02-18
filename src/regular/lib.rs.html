@@ -1,15 +1,133 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../regular/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">1</span>
-<span id="2">2</span>
-<span id="3">3</span>
-<span id="4">4</span>
-<span id="5">5</span>
-<span id="6">6</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../regular/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1"> 1</span>
+<span id="2"> 2</span>
+<span id="3"> 3</span>
+<span id="4"> 4</span>
+<span id="5"> 5</span>
+<span id="6"> 6</span>
+<span id="7"> 7</span>
+<span id="8"> 8</span>
+<span id="9"> 9</span>
+<span id="10">10</span>
+<span id="11">11</span>
+<span id="12">12</span>
+<span id="13">13</span>
+<span id="14">14</span>
+<span id="15">15</span>
+<span id="16">16</span>
+<span id="17">17</span>
+<span id="18">18</span>
+<span id="19">19</span>
+<span id="20">20</span>
+<span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
+<span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
+<span id="62">62</span>
+<span id="63">63</span>
+<span id="64">64</span>
+<span id="65">65</span>
 </pre><div class="example-wrap"><pre class="rust ">
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">util</span>;
+<span class="attribute">#![<span class="ident">deny</span>(<span class="ident">missing_docs</span>, <span class="ident">clippy</span>::<span class="ident">missing_safety_doc</span>)]</span>
+
+<span class="doccomment">//! Tools for manipulating regular languages.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! # Papers of interest</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! EFFICIENT MINIMIZATION OF DFAS WITH PARTIAL TRANSITION FUNCTIONS</span>
+<span class="doccomment">//!   - Antti Valmari &amp; Petri Lehtinen</span>
+<span class="doccomment">//!   - https://arxiv.org/pdf/0802.2826.pdf</span>
+<span class="doccomment">//!   - this one is interesting because the presence of a dead state means that</span>
+<span class="doccomment">//!     the transition function is essentially partial, by the definition used</span>
+<span class="doccomment">//!     in the paper</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! Fast brief practical DFA minimization</span>
+<span class="doccomment">//!   - Antti Valmari</span>
+<span class="doccomment">//!   - https://sci-hub.se/10.1016/j.ipl.2011.12.004</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! The Practical Performance of Automata Minimization Algorithms</span>
+<span class="doccomment">//!   - Erin van der Veen</span>
+<span class="doccomment">//!   - https://www.cs.ru.nl/bachelors-theses/2017/Erin_van_der_Veen___4431200___The_Practical_Performance_of_Automata_Minimization_Algorithms.pdf</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! Treatment of Epsilon Moves in Subset Construction</span>
+<span class="doccomment">//!   - Gertjan van Noord</span>
+<span class="doccomment">//!   - https://sci-hub.se/10.1162/089120100561638</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! Generic epsilon-removal</span>
+<span class="doccomment">//!   - Vivien Delmon</span>
+<span class="doccomment">//!   - https://www.lrde.epita.fr/dload/20070523-Seminar/delmon-eps-removal-vcsn-report.pdf</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! Effcient Approaches to Subset Construction</span>
+<span class="doccomment">//!   - Ted Leslie</span>
+<span class="doccomment">//!   - http://citeseerx.ist.psu.edu/viewdoc/download;jsessionid=318E0FC96DD030FC1E7A1AE52148DD83?doi=10.1.1.8.7435&amp;rep=rep1&amp;type=pdf</span>
+<span class="doccomment">//!   - This paper is not very clear, but if you can decipher it then it holds</span>
+<span class="doccomment">//!     an efficient implementation and description of data structures for</span>
+<span class="doccomment">//!     subset construction (determinization)</span>
 
 <span class="doccomment">/// Generalization of the accept/non-accept of regular expressions, DFAs, and</span>
 <span class="doccomment">/// NFAs. Connected to the larger concept of recognizing that some string</span>
 <span class="doccomment">/// belongs to a language.</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">accept</span>;
+<span class="doccomment">/// Traits and implementations of generic sets of symbol, called alphabets in</span>
+<span class="doccomment">/// the context of languages and strings.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">alphabet</span>;
+<span class="doccomment">/// Implementation of discrete finite automaton.</span>
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod</span> <span class="ident">dfa</span>;
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod</span> <span class="ident">error</span>;
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod</span> <span class="ident">util</span>;
+
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">dfa</span>::{<span class="ident">DFABuilder</span>, <span class="ident">DFAStorage</span>, <span class="ident">DefaultDFAStorage</span>, <span class="ident">DFA</span>};
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">error</span>::<span class="ident">Error</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">util</span>::<span class="ident">Range</span>;
+
+<span class="doccomment">/// Common items to import.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Example</span>
+<span class="doccomment">/// ```</span>
+<span class="doccomment">/// use regular::prelude::*;</span>
+<span class="doccomment">/// ```</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">prelude</span> {
+    <span class="kw">pub</span> <span class="kw">use</span> <span class="kw">crate</span>::{
+        <span class="ident">accept</span>::{<span class="ident">Accept</span>, <span class="ident">IterExt</span>},
+        <span class="ident">dfa</span>::{<span class="ident">DFABuilder</span>, <span class="ident">DFAStorage</span>, <span class="ident">DefaultDFAStorage</span>, <span class="ident">DFA</span>},
+        <span class="ident">error</span>::<span class="ident">Error</span>,
+    };
+}
 </pre></div>
 </section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../";window.currentCrate = "regular";</script><script src="../../aliases.js"></script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>

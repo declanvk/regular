@@ -1,5 +1,55 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="API documentation for the Rust `regular` crate."><meta name="keywords" content="rust, rustlang, rust-lang, regular"><title>regular - Rust</title><link rel="stylesheet" type="text/css" href="../normalize.css"><link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../dark.css"><link rel="stylesheet" type="text/css" href="../light.css" id="themeStyle"><script src="../storage.js"></script><noscript><link rel="stylesheet" href="../noscript.css"></noscript><link rel="shortcut icon" href="../favicon.ico"><style type="text/css">#crate-search{background-image:url("../down-arrow.svg");}</style></head><body class="rustdoc mod"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../regular/index.html'><div class='logo-container'><img src='../rust-logo.png' alt='logo'></div></a><p class='location'>Crate regular</p><div class="sidebar-elems"><a id='all-types' href='all.html'><p>See all regular's items</p></a><div class="block items"><ul><li><a href="#modules">Modules</a></li></ul></div><p class='location'></p><script>window.sidebarCurrent = {name: 'regular', ty: 'mod', relpath: '../'};</script></div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../settings.html"><img src="../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><h1 class='fqn'><span class='out-of-band'><span id='render-detail'><a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class='inner'>&#x2212;</span>]</a></span><a class='srclink' href='../src/regular/lib.rs.html#1-6' title='goto source code'>[src]</a></span><span class='in-band'>Crate <a class="mod" href=''>regular</a></span></h1><h2 id='modules' class='section-header'><a href="#modules">Modules</a></h2>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="API documentation for the Rust `regular` crate."><meta name="keywords" content="rust, rustlang, rust-lang, regular"><title>regular - Rust</title><link rel="stylesheet" type="text/css" href="../normalize.css"><link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../dark.css"><link rel="stylesheet" type="text/css" href="../light.css" id="themeStyle"><script src="../storage.js"></script><noscript><link rel="stylesheet" href="../noscript.css"></noscript><link rel="shortcut icon" href="../favicon.ico"><style type="text/css">#crate-search{background-image:url("../down-arrow.svg");}</style></head><body class="rustdoc mod"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../regular/index.html'><div class='logo-container'><img src='../rust-logo.png' alt='logo'></div></a><p class='location'>Crate regular</p><div class="sidebar-elems"><a id='all-types' href='all.html'><p>See all regular's items</p></a><div class="block items"><ul><li><a href="#modules">Modules</a></li><li><a href="#structs">Structs</a></li><li><a href="#enums">Enums</a></li><li><a href="#traits">Traits</a></li></ul></div><p class='location'></p><script>window.sidebarCurrent = {name: 'regular', ty: 'mod', relpath: '../'};</script></div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../settings.html"><img src="../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><h1 class='fqn'><span class='out-of-band'><span id='render-detail'><a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class='inner'>&#x2212;</span>]</a></span><a class='srclink' href='../src/regular/lib.rs.html#1-65' title='goto source code'>[src]</a></span><span class='in-band'>Crate <a class="mod" href=''>regular</a></span></h1><div class='docblock'><p>Tools for manipulating regular languages.</p>
+<h1 id="papers-of-interest" class="section-header"><a href="#papers-of-interest">Papers of interest</a></h1>
+<p>EFFICIENT MINIMIZATION OF DFAS WITH PARTIAL TRANSITION FUNCTIONS</p>
+<ul>
+<li>Antti Valmari &amp; Petri Lehtinen</li>
+<li>https://arxiv.org/pdf/0802.2826.pdf</li>
+<li>this one is interesting because the presence of a dead state means that
+the transition function is essentially partial, by the definition used
+in the paper</li>
+</ul>
+<p>Fast brief practical DFA minimization</p>
+<ul>
+<li>Antti Valmari</li>
+<li>https://sci-hub.se/10.1016/j.ipl.2011.12.004</li>
+</ul>
+<p>The Practical Performance of Automata Minimization Algorithms</p>
+<ul>
+<li>Erin van der Veen</li>
+<li>https://www.cs.ru.nl/bachelors-theses/2017/Erin_van_der_Veen___4431200___The_Practical_Performance_of_Automata_Minimization_Algorithms.pdf</li>
+</ul>
+<p>Treatment of Epsilon Moves in Subset Construction</p>
+<ul>
+<li>Gertjan van Noord</li>
+<li>https://sci-hub.se/10.1162/089120100561638</li>
+</ul>
+<p>Generic epsilon-removal</p>
+<ul>
+<li>Vivien Delmon</li>
+<li>https://www.lrde.epita.fr/dload/20070523-Seminar/delmon-eps-removal-vcsn-report.pdf</li>
+</ul>
+<p>Effcient Approaches to Subset Construction</p>
+<ul>
+<li>Ted Leslie</li>
+<li>http://citeseerx.ist.psu.edu/viewdoc/download;jsessionid=318E0FC96DD030FC1E7A1AE52148DD83?doi=10.1.1.8.7435&amp;rep=rep1&amp;type=pdf</li>
+<li>This paper is not very clear, but if you can decipher it then it holds
+an efficient implementation and description of data structures for
+subset construction (determinization)</li>
+</ul>
+</div><h2 id='modules' class='section-header'><a href="#modules">Modules</a></h2>
 <table><tr class='module-item'><td><a class="mod" href="accept/index.html" title='regular::accept mod'>accept</a></td><td class='docblock-short'><p>Generalization of the accept/non-accept of regular expressions, DFAs, and
 NFAs. Connected to the larger concept of recognizing that some string
 belongs to a language.</p>
-</td></tr><tr class='module-item'><td><a class="mod" href="util/index.html" title='regular::util mod'>util</a></td><td class='docblock-short'></td></tr></table></section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../";window.currentCrate = "regular";</script><script src="../aliases.js"></script><script src="../main.js"></script><script defer src="../search-index.js"></script></body></html>
+</td></tr><tr class='module-item'><td><a class="mod" href="alphabet/index.html" title='regular::alphabet mod'>alphabet</a></td><td class='docblock-short'><p>Traits and implementations of generic sets of symbol, called alphabets in
+the context of languages and strings.</p>
+</td></tr><tr class='module-item'><td><a class="mod" href="prelude/index.html" title='regular::prelude mod'>prelude</a></td><td class='docblock-short'><p>Common items to import.</p>
+</td></tr></table><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
+<table><tr class='module-item'><td><a class="struct" href="struct.DFA.html" title='regular::DFA struct'>DFA</a></td><td class='docblock-short'><p>A deterministic finite automaton.</p>
+</td></tr><tr class='module-item'><td><a class="struct" href="struct.DFABuilder.html" title='regular::DFABuilder struct'>DFABuilder</a></td><td class='docblock-short'><p>Builder for a DFA.</p>
+</td></tr><tr class='module-item'><td><a class="struct" href="struct.DefaultDFAStorage.html" title='regular::DefaultDFAStorage struct'>DefaultDFAStorage</a></td><td class='docblock-short'><p>Default storage for a DFA.</p>
+</td></tr></table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
+<table><tr class='module-item'><td><a class="enum" href="enum.Error.html" title='regular::Error enum'>Error</a></td><td class='docblock-short'><p>Errors from <code>regular</code> operations.</p>
+</td></tr><tr class='module-item'><td><a class="enum" href="enum.Range.html" title='regular::Range enum'>Range</a></td><td class='docblock-short'><p>Set of contiguous elements</p>
+</td></tr></table><h2 id='traits' class='section-header'><a href="#traits">Traits</a></h2>
+<table><tr class='module-item'><td><a class="trait" href="trait.DFAStorage.html" title='regular::DFAStorage trait'>DFAStorage</a></td><td class='docblock-short'><p>Backend for the DFA struct.</p>
+</td></tr></table></section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../";window.currentCrate = "regular";</script><script src="../aliases.js"></script><script src="../main.js"></script><script defer src="../search-index.js"></script></body></html>

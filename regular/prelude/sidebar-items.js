@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["Error","Errors from `regular` operations."]],"struct":[["DFA","A deterministic finite automaton."],["DFABuilder","Builder for a DFA."],["DefaultDFAStorage","Default storage for a DFA."]],"trait":[["DFAStorage","Backend for the DFA struct."]]});
