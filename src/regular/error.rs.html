@@ -22,6 +22,15 @@
 <span id="22">22</span>
 <span id="23">23</span>
 <span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">core</span>::<span class="ident">fmt</span>;
 
@@ -34,6 +43,10 @@
     <span class="ident">InvalidState</span>,
     <span class="doccomment">/// Symbol not found in alphabet.</span>
     <span class="ident">SymbolNotInAlphabet</span>,
+    <span class="doccomment">/// State not found.</span>
+    <span class="ident">StateNotFound</span>,
+    <span class="doccomment">/// Attempted to perform operation with two different alphabets.</span>
+    <span class="ident">OperationWithNonEqualAlphabets</span>,
 }
 
 <span class="kw">impl</span> <span class="ident">std</span>::<span class="ident">error</span>::<span class="ident">Error</span> <span class="kw">for</span> <span class="ident">Error</span> {}
@@ -44,6 +57,11 @@
             <span class="ident">Error</span>::<span class="ident">MissingStartState</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;Start state was not specified.&quot;</span>),
             <span class="ident">Error</span>::<span class="ident">InvalidState</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;State specified was not valid for this automaton.&quot;</span>),
             <span class="ident">Error</span>::<span class="ident">SymbolNotInAlphabet</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;Symbol not found in alphabet.&quot;</span>),
+            <span class="ident">Error</span>::<span class="ident">OperationWithNonEqualAlphabets</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(
+                <span class="ident">f</span>,
+                <span class="string">&quot;Attempted to perform operation with two different alphabets.&quot;</span>
+            ),
+            <span class="ident">Error</span>::<span class="ident">StateNotFound</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;State not found.&quot;</span>),
         }
     }
 }
