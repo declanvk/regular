@@ -7,6 +7,8 @@ use crate::{
 use core::{fmt, hash::Hash};
 use std::collections::HashMap;
 
+mod operations;
+
 /// Backend for the DFA struct.
 ///
 /// Separating the two types allows for an optimized representation of the

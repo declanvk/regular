@@ -137,8 +137,8 @@ where
     }
 }
 
-#[derive(Debug)]
 /// Alphabet containing all booleans {True, False}.
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct Boolean;
 
 impl Alphabet for Boolean {
@@ -158,8 +158,8 @@ impl Alphabet for Boolean {
     }
 }
 
-#[derive(Debug)]
 /// Alphabet containing single symbol of the unit type.
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct Unit;
 
 impl Alphabet for Unit {
