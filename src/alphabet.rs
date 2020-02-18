@@ -1,6 +1,7 @@
 use crate::util::{Bounded, Range, Step};
 use core::{
     hash::{BuildHasher, Hash},
+    iter::{once, Chain, Once},
     marker::PhantomData,
     ops,
 };
@@ -136,6 +137,48 @@ where
     }
 }
 
+#[derive(Debug)]
+/// Alphabet containing all booleans {True, False}.
+pub struct Boolean;
+
+impl Alphabet for Boolean {
+    type Symbol = bool;
+    type ValueIter = Chain<Once<bool>, Once<bool>>;
+
+    fn values(&self) -> Self::ValueIter {
+        once(false).chain(once(true))
+    }
+
+    fn contains(&self, _sym: &Self::Symbol) -> bool {
+        true
+    }
+
+    fn num_values(&self) -> Option<usize> {
+        Some(2)
+    }
+}
+
+#[derive(Debug)]
+/// Alphabet containing single symbol of the unit type.
+pub struct Unit;
+
+impl Alphabet for Unit {
+    type Symbol = ();
+    type ValueIter = Once<()>;
+
+    fn values(&self) -> Self::ValueIter {
+        once(())
+    }
+
+    fn contains(&self, _sym: &Self::Symbol) -> bool {
+        true
+    }
+
+    fn num_values(&self) -> Option<usize> {
+        Some(1)
+    }
+}
+
 /// Coversion into an alphabet.
 pub trait IntoAlphabet {
     /// The type of symbols in the alphabet.
@@ -161,9 +204,10 @@ where
 
 /// An object which can be turned into an alphabet which has all valid instances
 /// of `Sym` as members of the alphabet.
-pub struct Full<Sym: Step>(PhantomData<Sym>);
+#[derive(Debug)]
+pub struct FullRange<Sym: Step>(PhantomData<Sym>);
 
-impl<Sym> IntoAlphabet for Full<Sym>
+impl<Sym> IntoAlphabet for FullRange<Sym>
 where
     Sym: Step + Bounded,
 {
