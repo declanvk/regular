@@ -292,6 +292,14 @@ where
         }
     }
 
+    pub fn storage(&self) -> &S {
+        &self.storage
+    }
+
+    pub fn alphabet(&self) -> &A {
+        self.storage.alphabet()
+    }
+
     /// Record and return a new state.
     pub fn new_state(&mut self) -> S::State {
         self.storage.add_state()

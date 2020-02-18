@@ -1,6 +1,6 @@
 use crate::{
     alphabet::Alphabet,
-    dfa::{DFAStorage, DFA},
+    dfa::{DFABuilder, DFAStorage, DFA},
     error::Error,
     util::{CartesianProductIter, VecSet},
 };
@@ -9,14 +9,12 @@ use std::collections::HashMap;
 
 // Create a new DFA that is the cross product construction of the two given
 // DFAs, without initializing the accept states of the DFA.
-fn cross_product_construction_without_accept_states<SL, SR, SN, A>(
+fn cross_product_construction_builder<SL, SR, SN, A>(
     left: &DFA<A, SL>,
     right: &DFA<A, SR>,
 ) -> Result<
     (
-        SN::State,
-        Option<SN::State>,
-        SN,
+        DFABuilder<A, SN>,
         HashMap<(SL::State, SR::State), SN::State>,
     ),
     Error,
@@ -39,37 +37,42 @@ where
     }
 
     let alphabet = left.storage.alphabet().clone();
+    let new_storage = SN::from_alphabet(alphabet);
+    let mut builder = DFABuilder::new_with_storage(new_storage);
 
-    let mut new_storage = SN::from_alphabet(alphabet);
     let mut state_mapping: HashMap<(SL::State, SR::State), SN::State> = HashMap::new();
 
     for left_state in left.storage.all_states() {
         for right_state in right.storage.all_states() {
-            let new_state = new_storage.add_state();
+            let new_state = builder.new_state();
 
             state_mapping.insert((left_state.clone(), right_state), new_state);
         }
     }
 
-    let new_start: SN::State = state_mapping
-        .get(&(left.start.clone(), right.start.clone()))
-        .ok_or(Error::StateNotFound)?
-        .clone();
-    let new_dead: Option<SN::State> = left
-        .dead
-        .as_ref()
-        .cloned()
-        .and_then(|left_dead| {
-            right
-                .dead
-                .as_ref()
-                .cloned()
-                .map(|right_dead| (left_dead, right_dead))
-        })
-        .and_then(|dead_pair| state_mapping.get(&dead_pair).cloned());
+    builder.start_state(
+        state_mapping
+            .get(&(left.start.clone(), right.start.clone()))
+            .ok_or(Error::StateNotFound)?
+            .clone(),
+    );
+
+    builder.dead_state(
+        left.dead
+            .as_ref()
+            .cloned()
+            .and_then(|left_dead| {
+                right
+                    .dead
+                    .as_ref()
+                    .cloned()
+                    .map(|right_dead| (left_dead, right_dead))
+            })
+            .and_then(|dead_pair| state_mapping.get(&dead_pair).cloned()),
+    );
 
     for ((self_state, other_state), new_state) in &state_mapping {
-        for sym in new_storage.alphabet().values() {
+        for sym in builder.alphabet().values() {
             // This is safe bc self_state and sym both originate indirectly from
             // left.storage
             let self_next = unsafe {
@@ -90,11 +93,11 @@ where
                 .get(&(self_next, other_next))
                 .ok_or(Error::StateNotFound)?;
 
-            new_storage.add_transition(new_state.clone(), sym, new_next.clone());
+            builder.transition(new_state.clone(), sym, new_next.clone())?;
         }
     }
 
-    Ok((new_start, new_dead, new_storage, state_mapping))
+    Ok((builder, state_mapping))
 }
 
 impl<A, S> DFA<A, S>
@@ -116,8 +119,8 @@ where
         A: PartialEq + Clone,
         A::Symbol: Clone,
     {
-        let (new_start, new_dead, new_storage, state_mapping) =
-            cross_product_construction_without_accept_states::<S, S2, S3, A>(self, other)?;
+        let (mut builder, state_mapping) =
+            cross_product_construction_builder::<S, S2, S3, A>(self, other)?;
 
         // The intersection accept states is the cartesian product of the previous
         // accept sets
@@ -133,12 +136,9 @@ where
             }
         }
 
-        Ok(DFA {
-            dead: new_dead,
-            start: new_start,
-            accept: new_accept,
-            storage: new_storage,
-        })
+        builder.accept_states(new_accept);
+
+        builder.build()
     }
 
     /// Construct a new DFA that accepts the regular language that is the
@@ -154,8 +154,8 @@ where
         A: PartialEq + Clone,
         A::Symbol: Clone,
     {
-        let (new_start, new_dead, new_storage, state_mapping) =
-            cross_product_construction_without_accept_states::<S, S2, S3, A>(self, other)?;
+        let (mut builder, state_mapping) =
+            cross_product_construction_builder::<S, S2, S3, A>(self, other)?;
 
         let other_all_states = other.storage.all_states();
 
@@ -177,12 +177,9 @@ where
             );
         }
 
-        Ok(DFA {
-            dead: new_dead,
-            start: new_start,
-            accept: new_accept,
-            storage: new_storage,
-        })
+        builder.accept_states(new_accept);
+
+        builder.build()
     }
 
     /// Construct a new DFA that accepts the regular language that is the
@@ -198,8 +195,8 @@ where
         A: PartialEq + Clone,
         A::Symbol: Clone,
     {
-        let (new_start, new_dead, new_storage, state_mapping) =
-            cross_product_construction_without_accept_states::<S, S2, S3, A>(self, other)?;
+        let (mut builder, state_mapping) =
+            cross_product_construction_builder::<S, S2, S3, A>(self, other)?;
 
         let other_all_states = other.storage.all_states();
 
@@ -221,12 +218,9 @@ where
             );
         }
 
-        Ok(DFA {
-            dead: new_dead,
-            start: new_start,
-            accept: new_accept,
-            storage: new_storage,
-        })
+        builder.accept_states(new_accept);
+
+        builder.build()
     }
 
     /// Construct a new DFA that accepts the regular language that is the
