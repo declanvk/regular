@@ -5,14 +5,17 @@ use core::{
     ops::{Add, Sub},
 };
 
+/// Set of contiguous elements
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
 pub enum Range<Sym: Step> {
+    /// Non-empty range
     NonEmpty {
         /// Start value, inclusive
         start: Sym,
         /// End value, inclusive
         end: Sym,
     },
+    /// Empty range
     Empty,
 }
 
@@ -20,6 +23,7 @@ impl<Sym> Range<Sym>
 where
     Sym: Step,
 {
+    /// Returns `true` if the given elements is within the range.
     pub fn contains(&self, sym: Sym) -> bool {
         match self {
             Range::NonEmpty { start, end } => start <= &sym && &sym <= end,
