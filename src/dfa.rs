@@ -4,7 +4,7 @@ use crate::{
     error::Error,
     util::VecSet,
 };
-use core::{fmt, hash::Hash};
+use core::hash::Hash;
 use std::collections::HashMap;
 
 mod operations;
@@ -15,9 +15,9 @@ mod operations;
 /// transition and state storage, which can be the largest part in most DFAs.
 ///
 /// See the DefaultDFAStorage for a sensible default backend.
-pub trait DFAStorage<A: Alphabet>: fmt::Debug + Clone {
+pub trait DFAStorage<A: Alphabet> {
     /// Type representing a state of the DFA.
-    type State: fmt::Debug + Clone + Eq;
+    type State: Clone + Eq;
 
     /// Construct a new instance of this storage from the provided alphabet.
     fn from_alphabet(alphabet: A) -> Self;
@@ -184,14 +184,15 @@ where
 /// Consists of a Hashmap for storing transistions, and the set of states is a
 /// linear range.
 #[derive(Debug, Clone)]
-pub struct DefaultDFAStorage<A: Alphabet, S: Eq + Hash> {
+pub struct DefaultDFAStorage<A, S: Eq + Hash> {
     alphabet: A,
     next_state: usize,
     transition: HashMap<(usize, S), usize>,
 }
 
-impl<A: Alphabet> DefaultDFAStorage<A, A::Symbol>
+impl<A> DefaultDFAStorage<A, A::Symbol>
 where
+    A: Alphabet,
     A::Symbol: Eq + Hash,
 {
     /// Construct a new default storage with the given alphabet.
@@ -206,8 +207,8 @@ where
 
 impl<A> DFAStorage<A> for DefaultDFAStorage<A, A::Symbol>
 where
-    A: Alphabet + fmt::Debug + Clone,
-    A::Symbol: fmt::Debug + Clone + Eq + Hash,
+    A: Alphabet,
+    A::Symbol: Clone + Eq + Hash,
 {
     type State = usize;
 
@@ -262,8 +263,8 @@ pub struct DFABuilder<A: Alphabet, S: DFAStorage<A> = DefaultDFAStorage<A, <A as
 
 impl<A> DFABuilder<A>
 where
-    A: Alphabet + fmt::Debug + Clone,
-    A::Symbol: Eq + Hash + fmt::Debug + Clone,
+    A: Alphabet,
+    A::Symbol: Eq + Hash + Clone,
 {
     /// Create a new DFABuilder with the given alphabet.
     pub fn new<I: IntoAlphabet<IntoAlpha = A, Symbol = A::Symbol>>(alphabet: I) -> Self {
@@ -292,10 +293,12 @@ where
         }
     }
 
+    /// Return a reference to the `DFAStorage` backing this builder.
     pub fn storage(&self) -> &S {
         &self.storage
     }
 
+    /// Return a reference to the `Alphabet` in the storage of this builder.
     pub fn alphabet(&self) -> &A {
         self.storage.alphabet()
     }

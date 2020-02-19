@@ -52,7 +52,7 @@ where
 
                 Some(start)
             }
-            Range::NonEmpty { start, end: _ } => Some(start),
+            Range::NonEmpty { start, .. } => Some(start),
             Range::Empty => None,
         }
     }

@@ -225,7 +225,10 @@ where
 
     /// Construct a new DFA that accepts the regular language that is the
     /// complement of the regular language represented by this DFA.
-    pub fn complement(&self) -> Self {
+    pub fn complement(&self) -> Self
+    where
+        Self: Clone,
+    {
         let mut complement_dfa = DFA::clone(&self);
 
         // Swap the set of accepting and non-accepting states to get a DFA that accepts
