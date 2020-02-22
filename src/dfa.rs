@@ -374,7 +374,7 @@ where
         self
     }
 
-    /// Build the
+    /// Build the DFA
     pub fn build(self) -> Result<DFA<A, S>, Error> {
         let DFABuilder {
             start,

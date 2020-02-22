@@ -46,6 +46,9 @@ pub(crate) mod dfa;
 pub(crate) mod error;
 pub(crate) mod util;
 
+#[cfg(test)]
+pub(crate) mod test_helper;
+
 pub use dfa::{DFABuilder, DFAStorage, DefaultDFAStorage, DFA};
 pub use error::Error;
 pub use util::Range;

@@ -240,3 +240,35 @@ where
         complement_dfa
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use crate::test_helper::{
+        binary_converter, convert_string, CONTAINS_EVEN_TRUES_DFA,
+        CONTAINS_EVEN_TRUES_OR_TWO_FALSE_DFA, CONTAINS_TWO_FALSE_DFA,
+    };
+    use proptest::{prop_assert, proptest};
+
+    proptest! {
+        #[test]
+        fn accept_two_false_random(s in "(0|1)*00(0|1)*") {
+            let string = convert_string(s, binary_converter());
+
+            prop_assert!(CONTAINS_TWO_FALSE_DFA.accept(string));
+        }
+
+        #[test]
+        fn accept_even_trues_random(s in "0|(10*1)*") {
+            let string = convert_string(s, binary_converter());
+
+            prop_assert!(CONTAINS_EVEN_TRUES_DFA.accept(string));
+        }
+
+        #[test]
+        fn accept_even_trues_or_two_false_random(s in "((0|1)*00(0|1)*)|(0|(10*1)*)") {
+            let string = convert_string(s, binary_converter());
+
+            prop_assert!(CONTAINS_EVEN_TRUES_OR_TWO_FALSE_DFA.accept(string));
+        }
+    }
+}
