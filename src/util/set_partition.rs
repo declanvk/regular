@@ -1,4 +1,4 @@
-use crate::util::{FixedBitSet, StorageInt};
+use crate::util::FixedBitSet;
 use core::{
     cmp::Ordering,
     ops::{Bound, RangeBounds},
@@ -6,11 +6,11 @@ use core::{
 };
 
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
-pub struct SetPartitions<A> {
+pub struct SetPartitions {
     set_count: usize,
-    elements: Box<[A]>,
+    elements: Box<[usize]>,
     marked: FixedBitSet,
-    set_idx: Box<[SetRepr]>,
+    set_idx: Box<[usize]>,
     set_first_idx: Vec<usize>,
     set_last_idx: Vec<usize>,
     set_mid_idx: Vec<usize>,
@@ -18,20 +18,17 @@ pub struct SetPartitions<A> {
 
 pub type SetRepr = usize;
 
-impl<A> SetPartitions<A>
-where
-    A: StorageInt,
-{
-    pub fn new(elements: impl Iterator<Item = A>) -> (SetRepr, Self) {
-        let elements = elements.collect::<Vec<A>>().into_boxed_slice();
-        let len = elements.len();
+impl SetPartitions {
+    #[allow(dead_code)]
+    pub fn new(max: usize) -> (SetRepr, Self) {
+        let num_elements = max + 1;
         let partitions = SetPartitions {
+            elements: (0..=max).collect(),
             set_count: 1,
-            marked: FixedBitSet::new(elements.len()),
-            elements,
-            set_idx: vec![0_usize; len].into_boxed_slice(),
+            marked: FixedBitSet::new(num_elements),
+            set_idx: vec![0_usize; num_elements].into_boxed_slice(),
             set_first_idx: vec![0],
-            set_last_idx: vec![len],
+            set_last_idx: vec![num_elements],
             set_mid_idx: vec![0],
         };
 
@@ -40,35 +37,38 @@ where
         (default_set, partitions)
     }
 
+    #[allow(dead_code)]
     pub fn num_partitions(&self) -> usize {
         self.set_count
     }
 
+    #[allow(dead_code)]
     pub fn size(&self, set: SetRepr) -> usize {
         self.set_last_idx[set] - self.set_first_idx[set]
     }
 
-    pub fn set(&self, item: &A) -> SetRepr {
-        self.set_idx[item.to_usize()]
+    pub fn set(&self, item: usize) -> SetRepr {
+        self.set_idx[item]
     }
 
-    pub fn mark(&mut self, item: &A) {
-        let item_val = item.to_usize();
-        let set = self.set_idx[item_val];
+    #[allow(dead_code)]
+    pub fn mark(&mut self, item: usize) {
+        let set = self.set_idx[item];
         let mid = self.set_mid_idx[set];
         let last = self.set_last_idx[set];
 
-        if !self.marked.contains(item_val) {
-            let loc = self.elements[mid..last].binary_search(item).unwrap() + mid;
+        if !self.marked.contains(item) {
+            let loc = self.elements[mid..last].binary_search(&item).unwrap() + mid;
             // overwrite location of item
             copy_within(&mut self.elements, mid..loc, mid + 1);
-            self.elements[mid] = *item;
+            self.elements[mid] = item;
             self.set_mid_idx[set] = mid + 1;
-            self.marked.set(item_val);
+            self.marked.set(item);
         } else {
         }
     }
 
+    #[allow(dead_code)]
     pub fn split(&mut self, set: SetRepr) -> Option<SetRepr> {
         let first_orig = self.set_first_idx[set];
         let mid_orig = self.set_mid_idx[set];
@@ -92,7 +92,7 @@ where
             self.elements[self.set_first_idx[new_set]..self.set_last_idx[new_set]].sort_unstable();
 
             for loc in self.set_first_idx[new_set]..self.set_last_idx[new_set] {
-                let elem_val = self.elements[loc].to_usize();
+                let elem_val = self.elements[loc];
                 self.marked.clear(elem_val);
                 self.set_idx[elem_val] = new_set;
             }
@@ -101,35 +101,36 @@ where
         }
     }
 
-    pub fn set_iter(&self, set: SetRepr) -> SetPartitionIter<A> {
+    #[allow(dead_code)]
+    pub fn set_iter(&self, set: SetRepr) -> SetPartitionIter {
         let (marked, unmarked) = (self.marked_slice(set), self.unmarked_slice(set));
         SetPartitionIter { marked, unmarked }
     }
 
+    #[allow(dead_code)]
     pub fn no_marks(&self, set: SetRepr) -> bool {
         self.set_mid_idx[set] == self.set_first_idx[set]
     }
 
-    pub fn marked_slice(&self, set: SetRepr) -> &[A] {
+    #[allow(dead_code)]
+    pub fn marked_slice(&self, set: SetRepr) -> &[usize] {
         &self.elements[self.set_first_idx[set]..self.set_mid_idx[set]]
     }
 
-    pub fn unmarked_slice(&self, set: SetRepr) -> &[A] {
+    #[allow(dead_code)]
+    pub fn unmarked_slice(&self, set: SetRepr) -> &[usize] {
         &self.elements[self.set_mid_idx[set]..self.set_last_idx[set]]
     }
 }
 
 #[derive(Debug, Clone)]
-pub struct SetPartitionIter<'a, A> {
-    marked: &'a [A],
-    unmarked: &'a [A],
+pub struct SetPartitionIter<'a> {
+    marked: &'a [usize],
+    unmarked: &'a [usize],
 }
 
-impl<'a, A> Iterator for SetPartitionIter<'a, A>
-where
-    A: Copy + Ord,
-{
-    type Item = &'a A;
+impl<'a> Iterator for SetPartitionIter<'a> {
+    type Item = &'a usize;
 
     fn next(&mut self) -> Option<Self::Item> {
         if let Some((first_marked, rest_marked)) = self.marked.split_first() {
@@ -196,36 +197,36 @@ mod tests {
 
     #[test]
     fn create_set_partition() {
-        let (default_set, partitions): (usize, SetPartitions<usize>) = SetPartitions::new(0..8);
+        let (default_set, partitions): (usize, SetPartitions) = SetPartitions::new(7);
 
         assert_eq!(partitions.size(default_set), 8);
-        assert_eq!(partitions.set(&0), default_set);
+        assert_eq!(partitions.set(0), default_set);
     }
 
     #[test]
     fn create_single_unit_partition() {
-        let (default_set, mut partitions): (usize, SetPartitions<usize>) = SetPartitions::new(0..8);
+        let (default_set, mut partitions): (usize, SetPartitions) = SetPartitions::new(7);
 
         assert!(partitions.no_marks(default_set));
-        partitions.mark(&3);
+        partitions.mark(3);
         assert!(!partitions.no_marks(default_set));
-        assert_eq!(partitions.set(&3), default_set);
+        assert_eq!(partitions.set(3), default_set);
 
         let new_set = partitions.split(default_set).unwrap();
         assert!(partitions.no_marks(new_set));
-        assert_eq!(partitions.set(&3), new_set);
+        assert_eq!(partitions.set(3), new_set);
         assert_eq!(partitions.size(new_set), 1);
         assert_eq!(partitions.size(default_set), 7);
     }
 
     #[test]
     fn create_single_large_partition() {
-        let (default_set, mut partitions): (usize, SetPartitions<usize>) = SetPartitions::new(0..8);
+        let (default_set, mut partitions): (usize, SetPartitions) = SetPartitions::new(7);
 
-        partitions.mark(&3);
-        partitions.mark(&7);
-        partitions.mark(&2);
-        partitions.mark(&0);
+        partitions.mark(3);
+        partitions.mark(7);
+        partitions.mark(2);
+        partitions.mark(0);
 
         assert_eq!(partitions.size(default_set), 8);
         let new_set = partitions.split(default_set).unwrap();
@@ -237,11 +238,11 @@ mod tests {
 
     #[test]
     fn create_multiple_large_partitions() {
-        let (set_a, mut partitions): (usize, SetPartitions<usize>) = SetPartitions::new(0..9);
+        let (set_a, mut partitions): (usize, SetPartitions) = SetPartitions::new(8);
 
-        partitions.mark(&3);
-        partitions.mark(&7);
-        partitions.mark(&2);
+        partitions.mark(3);
+        partitions.mark(7);
+        partitions.mark(2);
 
         assert!(!partitions.no_marks(set_a));
         assert_eq!(partitions.size(set_a), 9);
@@ -253,9 +254,9 @@ mod tests {
         assert_eq!(partitions.size(set_a), 6);
         assert_eq!(partitions.size(set_b), 3);
 
-        partitions.mark(&1);
-        partitions.mark(&4);
-        partitions.mark(&8);
+        partitions.mark(1);
+        partitions.mark(4);
+        partitions.mark(8);
 
         let set_c = partitions.split(set_a).unwrap();
 
@@ -267,13 +268,13 @@ mod tests {
 
     #[test]
     fn create_nested_partitions() {
-        let (set_a, mut partitions): (usize, SetPartitions<usize>) = SetPartitions::new(0..10);
+        let (set_a, mut partitions): (usize, SetPartitions) = SetPartitions::new(9);
 
-        partitions.mark(&3);
-        partitions.mark(&7);
-        partitions.mark(&1);
-        partitions.mark(&5);
-        partitions.mark(&9);
+        partitions.mark(3);
+        partitions.mark(7);
+        partitions.mark(1);
+        partitions.mark(5);
+        partitions.mark(9);
 
         assert!(!partitions.no_marks(set_a));
         assert_eq!(partitions.size(set_a), 10);
@@ -281,8 +282,8 @@ mod tests {
         assert_eq!(partitions.size(set_a), 5);
         assert_eq!(partitions.size(set_b), 5);
 
-        partitions.mark(&1);
-        partitions.mark(&9);
+        partitions.mark(1);
+        partitions.mark(9);
 
         let set_c = partitions.split(set_b).unwrap();
         assert_eq!(partitions.size(set_a), 5);
