@@ -1,1 +1,0 @@
-initSidebarItems({"enum":[["Range",""]],"struct":[["FixedBitSet",""],["Join",""],["SetPartitions",""],["VecSet",""]],"trait":[["Bounded",""],["Step","TODO(replace copied code): This is a copy of the Step trait from https://github.com/rust-lang/rust/pull/62886 When the PR is merged or when the trait hits stable, replace this."],["StorageInt",""]]});

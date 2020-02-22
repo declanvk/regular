@@ -1,9 +1,0 @@
-(function() {var implementors = {};
-implementors["regular"] = [{"text":"impl&lt;'_, A:&nbsp;<a class=\"trait\" href=\"https://doc.rust-lang.org/nightly/core/cmp/trait.Ord.html\" title=\"trait core::cmp::Ord\">Ord</a> + <a class=\"trait\" href=\"https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html\" title=\"trait core::clone::Clone\">Clone</a>&gt; <a class=\"trait\" href=\"https://doc.rust-lang.org/nightly/core/convert/trait.From.html\" title=\"trait core::convert::From\">From</a>&lt;<a class=\"primitive\" href=\"https://doc.rust-lang.org/nightly/std/primitive.slice.html\">&amp;'_ [A]</a>&gt; for <a class=\"struct\" href=\"regular/util/struct.VecSet.html\" title=\"struct regular::util::VecSet\">VecSet</a>&lt;A&gt;","synthetic":false,"types":["regular::util::vec_set::VecSet"]},{"text":"impl&lt;A:&nbsp;<a class=\"trait\" href=\"https://doc.rust-lang.org/nightly/core/cmp/trait.Ord.html\" title=\"trait core::cmp::Ord\">Ord</a>&gt; <a class=\"trait\" href=\"https://doc.rust-lang.org/nightly/core/convert/trait.From.html\" title=\"trait core::convert::From\">From</a>&lt;<a class=\"struct\" href=\"https://doc.rust-lang.org/nightly/alloc/vec/struct.Vec.html\" title=\"struct alloc::vec::Vec\">Vec</a>&lt;A&gt;&gt; for <a class=\"struct\" href=\"regular/util/struct.VecSet.html\" title=\"struct regular::util::VecSet\">VecSet</a>&lt;A&gt;","synthetic":false,"types":["regular::util::vec_set::VecSet"]}];
-
-            if (window.register_implementors) {
-                window.register_implementors(implementors);
-            } else {
-                window.pending_implementors = implementors;
-            }
-        })()
